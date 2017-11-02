@@ -1,38 +1,32 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <style>
+        <!--
+        .whitetab {
+            margin-left: 60px;
+            margin-right: 60px;
+            background-color: white;
+            padding: 1cm 1cm 1cm 1cm;
+        }
+        -->
+    </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" 
           integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" 
           crossorigin="anonymous">
     <title>Caculator Client</title>
-    <script src="scripts/jquery-3.2.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
 
             $(":button").click(function () {
-                var value1 = $("#txtValue1").val();
-                var value2 = $("#txtValue2").val();
                 var Calculate = $("#txtString").val();
-                var arg = "value1=" + value1 + "&value2=" + value2;
                 var control = event.target || event.srcElement;
                 var id = control.id
 
                 var urlString = "/api/math/";
-                //var urlString = "http://www.exceltimetable.com/api/math/";
 
                 switch (id) {
-                    case 'btnAdd':
-                        urlString = urlString + "Add/?" + arg;
-                        break;
-                    case 'btnMinus':
-                        urlString = urlString + "Substract/?" + arg;
-                        break;
-                    case 'btnMultiply':
-                        urlString = urlString + "Multiply/?" + arg;
-                        break;
-                    case 'btnDivide':
-                        urlString = urlString + "Divide/?" + arg;
-                        break;
                     case 'btnCalculate':
                         urlString = urlString + "Calculate/?" + "txtString=" + Calculate;
                         break;
@@ -59,40 +53,77 @@
     </script>
 
 </head>
-<body>
-    <div style="text-align:center">
-        <h2>Calculator client - JQuery</h2>
-
-        <!-- Number type is not supported in IE9 and prior versions -->
-        Please enter Value1 :   <input type="number"
-                                       id="txtValue1" min="1" max="100"><br><br>
-        Please enter Value2 :   <input type="number"
-                                       id="txtValue2" min="1" max="100"><br /><br>
-        
-        <input type="button" value="Add" id="btnAdd">
-        <input type="button" value="Substract" id="btnMinus">
-        <input type="button" value="Multiply" id="btnMultiply">
-        <input type="button" value="Divide" id="btnDivide">
-
-    </div>
+<body style="background-color:powderblue;">
 
     <div style="text-align:center">
-        <h2>Sum of string client - JQuery</h2>
+        <br>
+        <h1><b>Vertical Sticks Challenge</b></h1>
+        <a href="https://www.hackerrank.com/challenges/vertical-sticks/problem">Visit hackerrank.com for a detailed description of the problem</a>
+        <br><br>
+            Please enter numbers separated by a space :
+        <br><br>
+            <input id="txtString" width="50">
+        <br><br>
+            <input type="button" value="Calculate" id="btnCalculate">
+</div>
 
-        <!-- Number type is not supported in IE9 and prior versions -->
-        Please enter numbers separated by a space :   <br><br>
-        <input id="txtString" ><br><br>
-        
-        <!--Sum of numbers provided : <input type="text" id="txtResult" disabled /><br /><br>-->
-        <input type="button" value="Calculate" id="btnCalculate">
-
+    <!--This is the output from the controller-->
+    <div style="text-align:center"><br>
+        <b>Result:<br>
+            </b><h2><output type="text" id="txtResult" disabled /></h2><br>
+        --------------------------------------------------------------------------------------------------------
+        <br><br>
     </div>
-
-    <!--This is the output-->
-    <div style="text-align:center"><br /><br><br /><br>
-        <b>Result from Math API Service : <br /><br>
-            </b><output type="text" id="txtResult" disabled /><br /><br>
+    <div class="whitetab">
+        <h3>Approach...<br></h3>
+        <p>
+            Given:<br>
+            Array of integers: Y = [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>]<br>
+            Array of ray shot lengths: [v<sub>1</sub>, v<sub>2</sub>, v<sub>3</sub>…, v<sub>n</sub>] (where v<sub>i</sub> is the length of a ray shot)<br>
+            V [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>] = v<sub>1</sub> + v<sub>2</sub> + v<sub>3</sub>… + v<sub>n</sub><br>
+            Find E[V] the expected value of V<br>
+            In a problem with n sticks, we must calculate the ray shot of the i<sup>th</sup> stick for each permutation. That is (n-1)! calculations for each position the i<sup>th</sup> stick could occupy.<br>
+            <br>
+            <b>Alternate approach…</b><br>
+            <b>The Vertical Sticks challenge</b> can be changed into a problem of summing the expected ray shot length for each stick in the list.<br>
+            <i>Ray shot length = distance to the previous stick (with equal or greater height) or to the y-axis.</i><br>
+            As we are calculating a mean, we could find E[v<sub>i</sub>] the Expected Value of the ray shot for each stick (i) in the list and forget about considering all the positions that stick could take.<br>
+            E[V] = E[v<sub>1</sub>] + E[v<sub>2</sub>] + E[v<sub>3</sub>] … + E[v<sub>n</sub>]<br>
+            E[v<sub>i</sub>] = n+1 / k+1 where k is the number of sticks greater than or equal to the height of the i<sup>th</sup> stick.<br>
+            The +1 is necessary as the y-axis counts as both a position and the highest height.<br>
+            <br>
+            E.g. 1<br>
+            If we have 9 sticks… 8 with height 14 and one stick with height 15, that stick could be in position (or length) 1, 2, 3, 4, 5, 6, 7, 8, 9 in each of the permutations. The expected distance to ray shot length would be the sum of these numbers divided by the number of numbers… 45/9 = 5.<br>
+            <b>0</b> 1 2 3 4 <b>5</b> 6 7 8 9<br>
+            Another way to look at it is… we have 10 positions as position ‘0’ (the y-axis) counts as both a position and a height (greater than or equal to 15). So, the expected length of the ray shot is 10/2 = 5 (or 9+1 / 1+1).<br>
+            E.g. 2<br>
+            Consider 8 sticks with heights (1, 1, 1, 1, 1, 1, 2, 2)<br>
+            <b>0</b> 1 2 <b>3</b> 4 5 <b>6</b> 7 8<br>
+            n = 8 and k = 2<br>
+            The 2’s expected ray shot length is (n+1) / (k+1) = (8+1) / (2+1) = 9 / 3 = 3.
+            <br><br><br>
+            From the sample input:<br>
+            <b>Case 1:-</b> Numbers (1 2 3)<br>
+            Using the 'long' method...<br>
+            V(1, 2, 3) = 1 + 2 + 3 = 6<br>
+            V(1, 3, 2) = 1 + 2 + 1 = 4<br>
+            V(2, 1, 3) = 1 + 1 + 3 = 5<br>
+            V(2, 3, 1) = 1 + 2 + 1 = 4<br>
+            V(3, 1, 2) = 1 + 1 + 2 = 4<br>
+            V(3, 2, 1) = 1 + 1 + 1 = 3<br>
+            (6 + 4 + 5 + 4 + 4 + 3) / 6 = 4.33<br>
+            <b>* In a list of 5 numbers, this will be 120 lines plus the answer</b><br>
+            <br>
+            In a list with n numbers, E[ i ] = n+1 / k+1<br>
+            (k is the number of sticks greater than or equal to i)<br>
+            Using the 'short' method...<br>
+            E[1] = 4/4<br>
+            E[2] = 4/3<br>
+            E[3] = 4/2<br>
+            4/4 + 4/3 + 4/2 = 4.33<br>
+            <b>* In a list of 5 numbers, this will be 5 lines plus the answer</b><br>
+            <br>
+        </p>
     </div>
-
 </body>
 </html>
