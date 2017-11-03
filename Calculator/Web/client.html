@@ -27,8 +27,8 @@
                 var urlString = "/api/math/";
 
                 switch (id) {
-                    case 'btnCalculate':
-                        urlString = urlString + "Calculate/?" + "txtString=" + Calculate;
+                    case 'btnCalculateFast':
+                        urlString = urlString + "CalculateFast/?" + "txtString=" + Calculate;
                         break;
                     case 'btnCalculateSlow':
                         urlString = urlString + "CalculateSlow/?" + "txtString=" + Calculate;
@@ -74,12 +74,12 @@
     <table style="width:100%">
         <tr>
             <th style="text-align:center">
-                <input type="button" value="Calculate Slow Method" id="btnCalculateSlow"><br>
-                <p>(only runs for lists up to 10 elements)</p>
+                <input type="button" value="Calculate Fast Method" id="btnCalculateFast"><br>
+                <p>(Will work for any length list!)</p>
             </th>
             <th style="text-align:center">
-                <input type="button" value="Calculate Fast Method" id="btnCalculate"><br>
-                <p>(Will work for any length list!)</p>
+                <input type="button" value="Calculate Slow Method" id="btnCalculateSlow"><br>
+                <p>(only runs for lists up to 10 elements)</p>
             </th>
         </tr>
     </table>

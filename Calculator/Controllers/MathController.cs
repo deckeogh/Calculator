@@ -22,7 +22,7 @@ namespace WepAPI_Demo.Controllers
         //'           the slow method is the approach suggested on the hackerrank website
         //'***************************************************************************
         [HttpGet]
-        public string Calculate(string txtString)
+        public string CalculateFast(string txtString)
         {
             Stopwatch stopWatch = new Stopwatch();
 
