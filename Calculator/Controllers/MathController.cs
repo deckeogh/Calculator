@@ -46,8 +46,26 @@ namespace WepAPI_Demo.Controllers
             }
             stopWatch.Stop();
             
-            string statsResult = "Fast Score: " + rayShots.ToString("0.00") + ", Permutations: "
-                + permutations.ToString("#,###") + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString();
+            string statsResult = "Fast Score: " + rayShots.ToString("0.00") 
+                + ", Permutations: " + permutations.ToString("#,###") 
+                + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!";
+
+            // Returns detailed string output to client.html as txtResult
+            return statsResult;
+        }
+
+
+        [HttpGet]
+        public string CalculateSlow(string txtString)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+
+            // Splits the numbers into a string array and converts it into an integer array
+            List<string> caseList = txtString.Split().ToList();
+            List<int> intList = caseList.ConvertAll(int.Parse);
+
+            System.Numerics.BigInteger permutations = 1;
+
 
             // SLOW METHOD...
             // finds all permutations of the list of numbers using 'Permutations'
@@ -59,7 +77,7 @@ namespace WepAPI_Demo.Controllers
             IList<IList<int>> perms = Permutations(intList);
             foreach (List<int> perm in perms)
             {
-                
+
                 score = score + RayShotsLength(perm);
                 permutations = permutations + 1;
             }
@@ -69,8 +87,9 @@ namespace WepAPI_Demo.Controllers
 
             stopWatch.Stop();
 
-            statsResult = statsResult + "   ---   Slow score: " + slowAnswer.ToString("0.00") + ", Permutations: "
-                + permutations.ToString("#,###") + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString();
+            string statsResult = "Slow score: " + slowAnswer.ToString("0.00") 
+                + ", Permutations: " + permutations.ToString("#,###") 
+                + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!";
 
             // Returns detailed string output to client.html as txtResult
             return statsResult;

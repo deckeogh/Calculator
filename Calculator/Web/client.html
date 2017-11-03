@@ -30,6 +30,9 @@
                     case 'btnCalculate':
                         urlString = urlString + "Calculate/?" + "txtString=" + Calculate;
                         break;
+                    case 'btnCalculateSlow':
+                        urlString = urlString + "CalculateSlow/?" + "txtString=" + Calculate;
+                        break;
                     default:
                         urlString = urlString + "hello";
 
@@ -64,16 +67,32 @@
         <br><br>
             <input id="txtString" width="50">
         <br><br>
-            <input type="button" value="Calculate" id="btnCalculate">
+            
     </div>
 
     <!--This is the output from the controller-->
-    <div style="text-align:center">
+    <table style="width:100%">
+        <tr>
+            <th style="text-align:center">
+                <input type="button" value="Calculate Slow Method" id="btnCalculateSlow"><br>
+                <p>(only runs for lists up to 10 elements)</p>
+            </th>
+            <th style="text-align:center">
+                <input type="button" value="Calculate Fast Method" id="btnCalculate"><br>
+                <p>(Will work for any length list!)</p>
+            </th>
+        </tr>
+    </table>
+    <br>
+    <h5 style="text-align:center"><output type="text" id="txtResult" disabled /></h5>
+    <br>
+    
+    <!--<div style="text-align:center">
         <br>
         <b>Result:<br></b>
         <h5><output type="text" id="txtResult" disabled /></h5>
         <br>
-    </div>
+    </div>-->
 
     <div class="whitetab">
         <h3>Approach...<br></h3>
