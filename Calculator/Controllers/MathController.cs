@@ -49,6 +49,23 @@ namespace WepAPI_Demo.Controllers
             string statsResult = "Fast Score: " + rayShots.ToString("0.00") + ", Permutations: "
                 + permutations.ToString("#,###") + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString();
 
+            // Returns detailed string output to client.html as txtResult
+            return statsResult;
+        }
+
+
+        [HttpGet]
+        public string CalculateSlow(string txtString)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+
+            // Splits the numbers into a string array and converts it into an integer array
+            List<string> caseList = txtString.Split().ToList();
+            List<int> intList = caseList.ConvertAll(int.Parse);
+            double rayShots = 0;
+            System.Numerics.BigInteger permutations = 1;
+
+
             // SLOW METHOD...
             // finds all permutations of the list of numbers using 'Permutations'
             // calculates the sum of the Ray Shot Lengths for each permutation using 'RayShotsLength'
@@ -59,7 +76,7 @@ namespace WepAPI_Demo.Controllers
             IList<IList<int>> perms = Permutations(intList);
             foreach (List<int> perm in perms)
             {
-                
+
                 score = score + RayShotsLength(perm);
                 permutations = permutations + 1;
             }
@@ -69,7 +86,7 @@ namespace WepAPI_Demo.Controllers
 
             stopWatch.Stop();
 
-            statsResult = statsResult + "   ---   Slow score: " + slowAnswer.ToString("0.00") + ", Permutations: "
+            string statsResult = "Slow score: " + slowAnswer.ToString("0.00") + ", Permutations: "
                 + permutations.ToString("#,###") + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString();
 
             // Returns detailed string output to client.html as txtResult
