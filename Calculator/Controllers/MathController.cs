@@ -46,8 +46,9 @@ namespace WepAPI_Demo.Controllers
             }
             stopWatch.Stop();
             
-            string statsResult = "Fast Score: " + rayShots.ToString("0.00") + ", Permutations: "
-                + permutations.ToString("#,###") + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString();
+            string statsResult = "Fast Score: " + rayShots.ToString("0.00") 
+                + ", Permutations: " + permutations.ToString("#,###") 
+                + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!";
 
             // Returns detailed string output to client.html as txtResult
             return statsResult;
@@ -62,7 +63,7 @@ namespace WepAPI_Demo.Controllers
             // Splits the numbers into a string array and converts it into an integer array
             List<string> caseList = txtString.Split().ToList();
             List<int> intList = caseList.ConvertAll(int.Parse);
-            double rayShots = 0;
+
             System.Numerics.BigInteger permutations = 1;
 
 
@@ -86,8 +87,9 @@ namespace WepAPI_Demo.Controllers
 
             stopWatch.Stop();
 
-            string statsResult = "Slow score: " + slowAnswer.ToString("0.00") + ", Permutations: "
-                + permutations.ToString("#,###") + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString();
+            string statsResult = "Slow score: " + slowAnswer.ToString("0.00") 
+                + ", Permutations: " + permutations.ToString("#,###") 
+                + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!";
 
             // Returns detailed string output to client.html as txtResult
             return statsResult;
