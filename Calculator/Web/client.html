@@ -35,9 +35,8 @@
                         break;
                     default:
                         urlString = urlString + "hello";
-
                 }
-
+                
                 $.ajax({
                     url: urlString,
                     type: "GET",
@@ -50,6 +49,7 @@
                         $("#txtResult").val(err.Message)
                     }
                 });
+                
             });
 
         });
@@ -65,8 +65,14 @@
         <br><br>
             Please enter numbers separated by a space :
         <br><br>
-            <input id="txtString" width="50">
-        <br><br>
+            
+        <textarea id="txtString" cols=50 rows="15"></textarea>
+        
+
+
+
+            <!--<input id="txtString" width="50">
+        <br><br>-->
             
     </div>
 
@@ -86,13 +92,7 @@
     <br>
     <h5 style="text-align:center"><output type="text" id="txtResult" disabled /></h5>
     <br>
-    
-    <!--<div style="text-align:center">
-        <br>
-        <b>Result:<br></b>
-        <h5><output type="text" id="txtResult" disabled /></h5>
-        <br>
-    </div>-->
+
 
     <div class="whitetab">
         <h3>Approach...<br></h3>

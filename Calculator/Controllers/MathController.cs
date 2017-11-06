@@ -21,9 +21,15 @@ namespace WepAPI_Demo.Controllers
         //'           the fast method is described on the webpage
         //'           the slow method is the approach suggested on the hackerrank website
         //'***************************************************************************
+
+
         [HttpGet]
         public string CalculateFast(string txtString)
         {
+
+
+
+
             Stopwatch stopWatch = new Stopwatch();
 
             // Splits the numbers into a string array and converts it into an integer array
