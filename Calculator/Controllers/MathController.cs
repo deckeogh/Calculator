@@ -25,22 +25,30 @@ namespace WepAPI_Demo.Controllers
         [HttpPost]
         public List<string> CalculateFast([FromBody]string txtString)
         {
+            try
+            {
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
 
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            string[] textList = txtString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            string tempString = textList[0];
+                string[] textList = txtString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string tempString = textList[0];
             
-            List<string> txtAns = new List<string>() { "Fast Method" };
-            List<string> statsResult = ProcessFast(textList, 2, txtAns);
+                List<string> txtAns = new List<string>() { "Fast Method" };
+                List<string> statsResult = ProcessFast(textList, 2, txtAns);
             
-            stopWatch.Stop();
+                stopWatch.Stop();
 
-            statsResult.Add("Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!");
+                statsResult.Add("Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!");
 
-            //// Returns detailed string output to client.html as txtResult
-            return statsResult;
+                //// Returns detailed string output to client.html as txtResult
+                return statsResult;
+            }
+            catch (System.Exception excep)
+            {
+                List<string> txtAns = new List<string>() { "Error", excep.Message };
+                return txtAns;
+            }
+            
         }
 
         static List<string> ProcessFast(string[] textList, int counter, List<string> caseStats)
@@ -78,21 +86,30 @@ namespace WepAPI_Demo.Controllers
         [HttpPost]
         public List<string> CalculateSlow([FromBody]string txtString)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
+            try
+            {
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
 
-            string[] textList = txtString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            string tempString = textList[0];
+                string[] textList = txtString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string tempString = textList[0];
 
-            List<string> txtAns = new List<string>() { "Slow Method" };
-            List<string> statsResult = ProcessSlow(textList, 2, txtAns);
+                List<string> txtAns = new List<string>() { "Slow Method" };
+                List<string> statsResult = ProcessSlow(textList, 2, txtAns);
 
-            stopWatch.Stop();
+                stopWatch.Stop();
 
-            statsResult.Add("Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!");
+                statsResult.Add("Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!");
 
-            //// Returns detailed string output to client.html as txtResult
-            return statsResult;
+                //// Returns detailed string output to client.html as txtResult
+                return statsResult;
+            }
+            catch (System.Exception excep)
+            {
+                List<string> txtAns = new List<string>() { "Error", excep.Message };
+                return txtAns;
+            }
+
         }
 
         
