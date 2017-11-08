@@ -2,14 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style>
-        <!--
+
         .whitetab {
             margin-left: 60px;
             margin-right: 60px;
             background-color: white;
             padding: 1cm 1cm 1cm 1cm;
         }
-        -->
+
+        img {
+            float: right;
+        }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
           integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
@@ -24,9 +27,9 @@
         $(document).ready(function () {
             $("#btnCalculateFast").click(function () {
 
-                $("th:first").css("border", "3px solid red");
-                $("th:last").css("border", "1px solid red");
-                
+                $("#Fast").css("border", "3px solid red");
+                $("#Slow").css("border", "0px solid red");
+                $("#txtResultFast").html("")
 
                 var Calculate = $("#txtString").val();
 
@@ -50,9 +53,9 @@
 
 
             $("#btnCalculateSlow").click(function () {
-                $("th:last").css("border", "3px solid red");
-                $("th:first").css("border", "1px solid red");
-                
+                $("#Slow").css("border", "3px solid red");
+                $("#Fast").css("border", "0px solid red");
+                $("#txtResultSlow").html("")
 
 
                 var Calculate = $("#txtString").val();
@@ -89,8 +92,25 @@
         <br><br>
         Please enter numbers separated by a space :
         <br><br>
-
-        <textarea id="txtString" cols=50 rows="15">6
+        <table style="width:100%"  cellpadding="20">
+            <tr>
+                <th style="text-align:justify" width=33%>
+                    Given an array of integers Y = [y1, y2, y3…, yn], we have n line segments, such that, the endpoints of ith segment are (i,0) and (i, yi).<br>
+                    Imagine that from the top of each segment a horizontal ray is shot to the left, and this ray stops when it touches another segment or it hits the y-axis.<br>
+                    <p>
+                        <img src="https://s3.amazonaws.com/hr-challenge-images/65/1466136228-1e0f816996-vertical.png">
+                        <br>For example, if we have:<br>
+                        Y = [3, 2, 5, 3, 3, 4, 1, 2],<br>
+                        then<br>
+                        v1, v2, v3…, v8 = [1, 1, 3, 1, 1, 3, 1, 2],<br>
+                        as shown in the picture:<br>
+                    </p>
+                    <br><br>
+                    We construct an array of n integers, [v1, v2, v3…, vn], where vi is equal to length of ray shot from the top of segment i.<br>
+                    We define V [y1, y2, y3…, yn] = v1 + v2 + v3… + vn.
+                </th>
+                <th style="text-align:center" width=33%>
+                    <textarea id="txtString" cols=50 rows="15">6
 3
 1 2 3
 3
@@ -103,6 +123,18 @@
 10 10 10 5 10
 6
 1 2 3 4 5 6</textarea>
+                </th>
+                <th style="text-align:justify" width=33% font-weight: normal>
+                    For each permutation p of [1, 2,…, n], we can calculate V [yp1, yp2, yp3…, ypn]. If we choose a uniformly random permutation p of [1, 2,…, n], what is the expected value of V [yp1, yp2, yp3…, ypn]?<br>
+                    <br><b>Input Format</b><br>
+                    The first line contains a single integer T (1 <=T<= 100). T test cases follow.<br>
+                    The first line of each test-case is a single integer N (1 <= n <= 50), and the next line contains positive integer numbers y1, y2, y3…, yn separated by a single space (0&ltyi&lt=100).<br>
+                    <br><b>Output Format</b><br>
+                    For each test-case output expected value of V [yp1, yp2, yp3…, ypn], rounded to two digits after the decimal point.
+                </th>
+            </tr>
+        </table>
+        
     </div>
 
     <!--This is the output from the controller-->
