@@ -21,54 +21,90 @@ namespace WepAPI_Demo.Controllers
         //'           the fast method is described on the webpage
         //'           the slow method is the approach suggested on the hackerrank website
         //'***************************************************************************
-
-
-        [HttpGet]
-        public string CalculateFast(string txtString)
+        
+        [HttpPost]
+        public List<string> CalculateFast([FromBody]string txtString)
         {
 
-
-
-
             Stopwatch stopWatch = new Stopwatch();
-
-            // Splits the numbers into a string array and converts it into an integer array
-            List<string> caseList = txtString.Split().ToList();
-            List<int> intList = caseList.ConvertAll(int.Parse);
-            double rayShots = 0;
-            System.Numerics.BigInteger permutations = 1;
-
-            // FAST METHOD...
-            // iterates through the numbers to see how many numbers (elementScore) are greater than or equal to itself
-            // adds (n+1) / (k+1) to sumScores
-            // calculates the permutations (which is only used for display purposes!)
-
             stopWatch.Start();
-            for (var i = 0; i <= intList.Count - 1; i++)
-            {
-                int elementScore = intList.Count(item => item >= intList[i]);
-                rayShots = rayShots + ((double)(intList.Count + 1) / (double)(elementScore + 1));
-                permutations = permutations * (i + 1);
-            }
-            stopWatch.Stop();
-            
-            string statsResult = "Fast Score: " + rayShots.ToString("0.00") 
-                + ", Permutations: " + permutations.ToString("#,###") 
-                + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!";
 
-            // Returns detailed string output to client.html as txtResult
+            string[] textList = txtString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string tempString = textList[0];
+            
+            List<string> txtAns = new List<string>() { "Fast Method" };
+            List<string> statsResult = ProcessFast(textList, 2, txtAns);
+            
+            stopWatch.Stop();
+
+            statsResult.Add("Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!");
+
+            //// Returns detailed string output to client.html as txtResult
             return statsResult;
         }
 
+        static List<string> ProcessFast(string[] textList, int counter, List<string> caseStats)
+        {
+            //string caseOutput = "";
+            
+            double sumScores = 0;
+            System.Numerics.BigInteger permutations = 1;
 
-        [HttpGet]
-        public string CalculateSlow(string txtString)
+            string[] caseList = textList[counter].Split(' ');
+            int[] caseIntegers = Array.ConvertAll(caseList, s => int.Parse(s));
+            
+            for (var i = 0; i <= caseIntegers.Length - 1; i++)
+            {
+                int elementScore = caseIntegers.Count(item => item >= caseIntegers[i]);
+                sumScores = sumScores + ((double)(caseIntegers.Length + 1) / (double)(elementScore + 1));
+                permutations = permutations * (i + 1);
+            }
+            if (caseIntegers.Length > 20)
+            {
+                // If there are more than 20 integers, display the number of permutations in scientific notation
+                caseStats.Add(textList[counter] + " ... Average Score: " + sumScores.ToString("0.00") + " ... Permutations: " + permutations.ToString("E2"));
+            }
+            else
+            {
+                // Otherwise display it as an exact number including thousand separators
+                caseStats.Add(textList[counter] + " ... Average Score: " + sumScores.ToString("0.00") + " ... Permutations: " + permutations.ToString("#,###"));
+            }
+            counter += 2;
+            if (counter <= Convert.ToInt32(textList[0]) * 2)
+            {
+                ProcessFast(textList, counter, caseStats);
+            }
+            return caseStats;
+        }
+
+        [HttpPost]
+        public List<string> CalculateSlow([FromBody]string txtString)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            string[] textList = txtString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string tempString = textList[0];
+
+            List<string> txtAns = new List<string>() { "Slow Method" };
+            List<string> statsResult = ProcessSlow(textList, 2, txtAns);
+
+            stopWatch.Stop();
+
+            statsResult.Add("Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!");
+
+            //// Returns detailed string output to client.html as txtResult
+            return statsResult;
+        }
+
+        
+        public List<string> ProcessSlow(string[] textList, int counter, List<string> caseStats)
         {
             Stopwatch stopWatch = new Stopwatch();
 
             // Splits the numbers into a string array and converts it into an integer array
-            List<string> caseList = txtString.Split().ToList();
-            List<int> intList = caseList.ConvertAll(int.Parse);
+            string[] caseList = textList[counter].Split(' ');
+            int[] caseIntegers = Array.ConvertAll(caseList, s => int.Parse(s));
 
             System.Numerics.BigInteger permutations = 1;
 
@@ -80,25 +116,26 @@ namespace WepAPI_Demo.Controllers
             stopWatch.Start();
             int score = 0;
             permutations = 0;
-            IList<IList<int>> perms = Permutations(intList);
+            IList<IList<int>> perms = Permutations(caseIntegers);
             foreach (List<int> perm in perms)
             {
-
                 score = score + RayShotsLength(perm);
                 permutations = permutations + 1;
             }
 
             decimal slowAnswer = (decimal)score / (decimal)permutations;
 
+            caseStats.Add(textList[counter] + " ... Average Score: " + slowAnswer.ToString("0.00")
+                + ", Permutations: " + permutations.ToString("#,###"));
 
-            stopWatch.Stop();
-
-            string statsResult = "Slow score: " + slowAnswer.ToString("0.00") 
-                + ", Permutations: " + permutations.ToString("#,###") 
-                + ", Calculation time: " + stopWatch.ElapsedMilliseconds.ToString() + " milliseconds!";
+            counter += 2;
+            if (counter <= Convert.ToInt32(textList[0]) * 2)
+            {
+                ProcessSlow(textList, counter, caseStats);
+            }
 
             // Returns detailed string output to client.html as txtResult
-            return statsResult;
+            return caseStats;
         }
 
         [HttpGet]
@@ -156,7 +193,7 @@ namespace WepAPI_Demo.Controllers
         public int RayShotsLength(List<int> intList)
         {
             int score = 0;
-            for(int i = 0; i < intList.Count; i++)
+            for (int i = 0; i < intList.Count; i++)
             {
                 score = score + 1;
                 for (int j = 1; j <= i; j++)

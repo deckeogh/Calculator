@@ -11,49 +11,73 @@
         }
         -->
     </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" 
-          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
           crossorigin="anonymous">
     <title>Caculator Client</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+
+
     <script>
         $(document).ready(function () {
+            $("#btnCalculateFast").click(function () {
 
-            $(":button").click(function () {
+                $("th:first").css("border", "3px solid red");
+                $("th:last").css("border", "1px solid red");
+                
+
                 var Calculate = $("#txtString").val();
-                var control = event.target || event.srcElement;
-                var id = control.id
 
-                var urlString = "/api/math/";
-
-                switch (id) {
-                    case 'btnCalculateFast':
-                        urlString = urlString + "CalculateFast/?" + "txtString=" + Calculate;
-                        break;
-                    case 'btnCalculateSlow':
-                        urlString = urlString + "CalculateSlow/?" + "txtString=" + Calculate;
-                        break;
-                    default:
-                        urlString = urlString + "hello";
-                }
-                
                 $.ajax({
-                    url: urlString,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function (result) {
-                        $("#txtResult").val(result);
-                    },
-                    error: function (xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        $("#txtResult").val(err.Message)
-                    }
+                    url: "/api/math/CalculateFast/",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(Calculate),
+
+                })
+                .done(function (data) {
+                    var list = data;
+                    $.each(list, function (index, item) {
+                        $("#txtResultFast").append(item + "<br>");
+                    });
+                })
+                .fail(function (xhr) {
+                    alert(xhr.responseText);
                 });
-                
             });
 
+
+            $("#btnCalculateSlow").click(function () {
+                $("th:last").css("border", "3px solid red");
+                $("th:first").css("border", "1px solid red");
+                
+
+
+                var Calculate = $("#txtString").val();
+
+                $.ajax({
+                    url: "/api/math/CalculateSlow/",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(Calculate),
+
+                })
+                    .done(function (data) {
+                        var list = data;
+                        //$("#Slow").html("");
+                        $.each(list, function (index, item) {
+                            $("#txtResultSlow").append(item + "<br>");
+                        });
+                    })
+                    .fail(function (xhr) {
+                        alert(xhr.responseText);
+                    });
+            });
         });
     </script>
+
 
 </head>
 <body style="background-color:powderblue;">
@@ -63,34 +87,43 @@
         <h1><b>Vertical Sticks Challenge</b></h1>
         <a href="https://www.hackerrank.com/challenges/vertical-sticks/problem">Visit hackerrank.com for a detailed description of the problem</a>
         <br><br>
-            Please enter numbers separated by a space :
+        Please enter numbers separated by a space :
         <br><br>
-            
-        <textarea id="txtString" cols=50 rows="15"></textarea>
-        
 
-
-
-            <!--<input id="txtString" width="50">
-        <br><br>-->
-            
+        <textarea id="txtString" cols=50 rows="15">6
+3
+1 2 3
+3
+3 3 3
+3
+2 2 3
+4
+10 2 4 4
+5
+10 10 10 5 10
+6
+1 2 3 4 5 6</textarea>
     </div>
 
     <!--This is the output from the controller-->
     <table style="width:100%">
         <tr>
-            <th style="text-align:center">
+            <th style="text-align:center" width=50%>
                 <input type="button" value="Calculate Fast Method" id="btnCalculateFast"><br>
                 <p>(Will work for any length list!)</p>
+                <h5 id ="Fast" style="text-align:center"><output type="text" id="txtResultFast" disabled /></h5>
             </th>
-            <th style="text-align:center">
+            <th style="text-align:center" width=50%>
                 <input type="button" value="Calculate Slow Method" id="btnCalculateSlow"><br>
                 <p>(only runs for lists up to 10 elements)</p>
+                <h5 id ="Slow" style="text-align:center"><output type="text" id="txtResultSlow" disabled /></h5>
+                <!--<h5 id="Slow" style="text-align:center"></h5>-->
             </th>
         </tr>
     </table>
     <br>
-    <h5 style="text-align:center"><output type="text" id="txtResult" disabled /></h5>
+    <!--<h5 style="text-align:center"></h5>-->
+    <!--<h5 style="text-align:center"><output type="text" id="txtResult" disabled /></h5>-->
     <br>
 
 
