@@ -45,8 +45,6 @@ namespace WepAPI_Demo.Controllers
 
         static List<string> ProcessFast(string[] textList, int counter, List<string> caseStats)
         {
-            //string caseOutput = "";
-            
             double sumScores = 0;
             System.Numerics.BigInteger permutations = 1;
 

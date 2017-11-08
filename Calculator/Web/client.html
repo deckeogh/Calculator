@@ -27,10 +27,7 @@
         $(document).ready(function () {
             $("#btnCalculateFast").click(function () {
 
-                $("#Fast").css("border", "3px solid red");
-                $("#Slow").css("border", "0px solid red");
                 $("#txtResultFast").html("")
-
                 var Calculate = $("#txtString").val();
 
                 $.ajax({
@@ -48,16 +45,15 @@
                 })
                 .fail(function (xhr) {
                     alert(xhr.responseText);
-                });
+                    });
+                $("#Fast").css("border", "3px solid red");
+                $("#Slow").css("border", "0px solid red");
             });
 
 
             $("#btnCalculateSlow").click(function () {
-                $("#Slow").css("border", "3px solid red");
-                $("#Fast").css("border", "0px solid red");
+                
                 $("#txtResultSlow").html("")
-
-
                 var Calculate = $("#txtString").val();
 
                 $.ajax({
@@ -67,19 +63,21 @@
                     data: JSON.stringify(Calculate),
 
                 })
-                    .done(function (data) {
-                        var list = data;
-                        //$("#Slow").html("");
-                        $.each(list, function (index, item) {
-                            $("#txtResultSlow").append(item + "<br>");
-                        });
-                    })
-                    .fail(function (xhr) {
-                        alert(xhr.responseText);
+                .done(function (data) {
+                    var list = data;
+                    $.each(list, function (index, item) {
+                        $("#txtResultSlow").append(item + "<br>");
                     });
+                })
+                .fail(function (xhr) {
+                    alert(xhr.responseText);
+                });
+                $("#Slow").css("border", "3px solid red");
+                $("#Fast").css("border", "0px solid red");
             });
         });
     </script>
+
 
 
 </head>
@@ -94,7 +92,7 @@
         <br><br>
         <table style="width:100%"  cellpadding="40" >
             <tr>
-                <th style="text-align:justify; vertical-align: top;" width=40%>
+                <td style="text-align:justify; vertical-align: top;" width=40%>
                     Given an array of integers Y = [y1, y2, y3…, yn], we have n line segments, such that, the endpoints of ith segment are (i,0) and (i, yi).<br>
                     Imagine that from the top of each segment a horizontal ray is shot to the left, and this ray stops when it touches another segment or it hits the y-axis.<br>
                     <p>
@@ -108,7 +106,7 @@
                     <br><br>
                     We construct an array of n integers, [v1, v2, v3…, vn], where vi is equal to length of ray shot from the top of segment i.<br>
                     We define V [y1, y2, y3…, yn] = v1 + v2 + v3… + vn.
-                </th>
+                </td>
                 <th style="text-align:center; vertical-align: top;" width=20%>
                     <textarea id="txtString" cols=50 rows="15">6
 3
@@ -124,14 +122,14 @@
 6
 1 2 3 4 5 6</textarea>
                 </th>
-                <th style="text-align:justify; vertical-align: top;" width=40% font-weight: normal>
+                <td style="text-align:justify; vertical-align: top;" width=40% font-weight: normal>
                     For each permutation p of [1, 2,…, n], we can calculate V [yp1, yp2, yp3…, ypn]. If we choose a uniformly random permutation p of [1, 2,…, n], what is the expected value of V [yp1, yp2, yp3…, ypn]?<br>
                     <br><b>Input Format</b><br>
                     The first line contains a single integer T (1 <=T<= 100). T test cases follow.<br>
                     The first line of each test-case is a single integer N (1 <= n <= 50), and the next line contains positive integer numbers y1, y2, y3…, yn separated by a single space (0&ltyi&lt=100).<br>
                     <br><b>Output Format</b><br>
                     For each test-case output expected value of V [yp1, yp2, yp3…, ypn], rounded to two digits after the decimal point.
-                </th>
+                </td>
             </tr>
         </table>
         
@@ -140,29 +138,27 @@
     <!--This is the output from the controller-->
     <table style="width:100%" >
         <tr>
-            <th style="text-align:center; vertical-align: top;" width=50%>
+            <td style="text-align:center; vertical-align: top;" width=50%>
                 <input type="button" value="Calculate Fast Method" id="btnCalculateFast"><br>
                 <p>(Will work for any length list!)</p>
                 <h5 id ="Fast" style="text-align:center"><output type="text" id="txtResultFast" disabled /></h5>
-            </th>
-            <th style="text-align:center; vertical-align: top;" width=50%>
+            </td>
+            <td style="text-align:center; vertical-align: top;" width=50%>
                 <input type="button" value="Calculate Slow Method" id="btnCalculateSlow"><br>
                 <p>(only runs for lists up to 10 elements)</p>
                 <h5 id ="Slow" style="text-align:center"><output type="text" id="txtResultSlow" disabled /></h5>
                 <!--<h5 id="Slow" style="text-align:center"></h5>-->
-            </th>
+            </td>
         </tr>
     </table>
     <br>
-    <!--<h5 style="text-align:center"></h5>-->
-    <!--<h5 style="text-align:center"><output type="text" id="txtResult" disabled /></h5>-->
     <br>
 
 
     <div class="whitetab">
         <table   cellpadding="40" >
             <tr>
-                <th style="text-align:justify; vertical-align: top;" width=50%>
+                <td style="text-align:justify; vertical-align: top;" width=50%>
                     <b>Fast Method…</b><br>
                     The Vertical Sticks challenge can be changed into a problem of summing the expected ray shot length for each stick in the list.<br>
                     <i>Ray shot length = distance to the previous stick (with equal or greater height) or to the y-axis.</i><br>
@@ -180,9 +176,8 @@
                     <b>0</b> 1 2 <b>3</b> 4 5 <b>6</b> 7 8<br>
                     n = 8 and k = 2<br>
                     The 2’s expected ray shot length is (n+1) / (k+1) = (8+1) / (2+1) = 9 / 3 = 3.
-                    <br><br><br>
-                </th>
-                <th style="text-align:justify; vertical-align: top;" width=50%>
+                </td>
+                <td style="text-align:justify; vertical-align: top;" width=50%>
                     <b>Slow Method…</b><br>
                     Array of integers: Y = [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>]<br>
                     Array of ray shot lengths: [v<sub>1</sub>, v<sub>2</sub>, v<sub>3</sub>…, v<sub>n</sub>] (where v<sub>i</sub> is the length of a ray shot)<br>
@@ -190,7 +185,11 @@
                     Find E[V] the expected value of V<br>
                     In a problem with n sticks, we must calculate the ray shot of the i<sup>th</sup> stick for each permutation. That is (n-1)! calculations for each position the i<sup>th</sup> stick could occupy.<br>
                     <br>
-                </th>
+                    1) Calculate all permutations<br>
+                    2) For each permutation calculate the length of the Ray Shot<br>
+                    3) For each array of lengths, calculate the sum of lengths<br>
+                    4) Calculate the average total length for all permutations
+                </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center; vertical-align: top;">
