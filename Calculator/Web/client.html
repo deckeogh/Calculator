@@ -88,13 +88,13 @@
     <div style="text-align:center">
         <br>
         <h1><b>Vertical Sticks Challenge</b></h1>
-        <a href="https://www.hackerrank.com/challenges/vertical-sticks/problem">Visit hackerrank.com for a detailed description of the problem</a>
+        Visit <a href="https://www.hackerrank.com/challenges/vertical-sticks/problem">hackerrank.com</a> for a detailed description of the problem
         <br><br>
         Please enter numbers separated by a space :
         <br><br>
-        <table style="width:100%"  cellpadding="20">
+        <table style="width:100%"  cellpadding="40" >
             <tr>
-                <th style="text-align:justify" width=33%>
+                <th style="text-align:justify; vertical-align: top;" width=40%>
                     Given an array of integers Y = [y1, y2, y3…, yn], we have n line segments, such that, the endpoints of ith segment are (i,0) and (i, yi).<br>
                     Imagine that from the top of each segment a horizontal ray is shot to the left, and this ray stops when it touches another segment or it hits the y-axis.<br>
                     <p>
@@ -109,7 +109,7 @@
                     We construct an array of n integers, [v1, v2, v3…, vn], where vi is equal to length of ray shot from the top of segment i.<br>
                     We define V [y1, y2, y3…, yn] = v1 + v2 + v3… + vn.
                 </th>
-                <th style="text-align:center" width=33%>
+                <th style="text-align:center; vertical-align: top;" width=20%>
                     <textarea id="txtString" cols=50 rows="15">6
 3
 1 2 3
@@ -124,7 +124,7 @@
 6
 1 2 3 4 5 6</textarea>
                 </th>
-                <th style="text-align:justify" width=33% font-weight: normal>
+                <th style="text-align:justify; vertical-align: top;" width=40% font-weight: normal>
                     For each permutation p of [1, 2,…, n], we can calculate V [yp1, yp2, yp3…, ypn]. If we choose a uniformly random permutation p of [1, 2,…, n], what is the expected value of V [yp1, yp2, yp3…, ypn]?<br>
                     <br><b>Input Format</b><br>
                     The first line contains a single integer T (1 <=T<= 100). T test cases follow.<br>
@@ -138,14 +138,14 @@
     </div>
 
     <!--This is the output from the controller-->
-    <table style="width:100%">
+    <table style="width:100%" >
         <tr>
-            <th style="text-align:center" width=50%>
+            <th style="text-align:center; vertical-align: top;" width=50%>
                 <input type="button" value="Calculate Fast Method" id="btnCalculateFast"><br>
                 <p>(Will work for any length list!)</p>
                 <h5 id ="Fast" style="text-align:center"><output type="text" id="txtResultFast" disabled /></h5>
             </th>
-            <th style="text-align:center" width=50%>
+            <th style="text-align:center; vertical-align: top;" width=50%>
                 <input type="button" value="Calculate Slow Method" id="btnCalculateSlow"><br>
                 <p>(only runs for lists up to 10 elements)</p>
                 <h5 id ="Slow" style="text-align:center"><output type="text" id="txtResultSlow" disabled /></h5>
@@ -160,55 +160,68 @@
 
 
     <div class="whitetab">
-        <h3>Approach...<br></h3>
-        <p>
-            Given:<br>
-            Array of integers: Y = [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>]<br>
-            Array of ray shot lengths: [v<sub>1</sub>, v<sub>2</sub>, v<sub>3</sub>…, v<sub>n</sub>] (where v<sub>i</sub> is the length of a ray shot)<br>
-            V [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>] = v<sub>1</sub> + v<sub>2</sub> + v<sub>3</sub>… + v<sub>n</sub><br>
-            Find E[V] the expected value of V<br>
-            In a problem with n sticks, we must calculate the ray shot of the i<sup>th</sup> stick for each permutation. That is (n-1)! calculations for each position the i<sup>th</sup> stick could occupy.<br>
-            <br>
-            <b>Alternate approach…</b><br>
-            <b>The Vertical Sticks challenge</b> can be changed into a problem of summing the expected ray shot length for each stick in the list.<br>
-            <i>Ray shot length = distance to the previous stick (with equal or greater height) or to the y-axis.</i><br>
-            As we are calculating a mean, we could find E[v<sub>i</sub>] the Expected Value of the ray shot for each stick (i) in the list and forget about considering all the positions that stick could take.<br>
-            E[V] = E[v<sub>1</sub>] + E[v<sub>2</sub>] + E[v<sub>3</sub>] … + E[v<sub>n</sub>]<br>
-            E[v<sub>i</sub>] = n+1 / k+1 where k is the number of sticks greater than or equal to the height of the i<sup>th</sup> stick.<br>
-            The +1 is necessary as the y-axis counts as both a position and the highest height.<br>
-            <br>
-            E.g. 1<br>
-            If we have 9 sticks… 8 with height 14 and one stick with height 15, that stick could be in position (or length) 1, 2, 3, 4, 5, 6, 7, 8, 9 in each of the permutations. The expected distance to ray shot length would be the sum of these numbers divided by the number of numbers… 45/9 = 5.<br>
-            <b>0</b> 1 2 3 4 <b>5</b> 6 7 8 9<br>
-            Another way to look at it is… we have 10 positions as position ‘0’ (the y-axis) counts as both a position and a height (greater than or equal to 15). So, the expected length of the ray shot is 10/2 = 5 (or 9+1 / 1+1).<br>
-            E.g. 2<br>
-            Consider 8 sticks with heights (1, 1, 1, 1, 1, 1, 2, 2)<br>
-            <b>0</b> 1 2 <b>3</b> 4 5 <b>6</b> 7 8<br>
-            n = 8 and k = 2<br>
-            The 2’s expected ray shot length is (n+1) / (k+1) = (8+1) / (2+1) = 9 / 3 = 3.
-            <br><br><br>
-            From the sample input:<br>
-            <b>Case 1:-</b> Numbers (1 2 3)<br>
-            Using the 'long' method...<br>
-            V(1, 2, 3) = 1 + 2 + 3 = 6<br>
-            V(1, 3, 2) = 1 + 2 + 1 = 4<br>
-            V(2, 1, 3) = 1 + 1 + 3 = 5<br>
-            V(2, 3, 1) = 1 + 2 + 1 = 4<br>
-            V(3, 1, 2) = 1 + 1 + 2 = 4<br>
-            V(3, 2, 1) = 1 + 1 + 1 = 3<br>
-            (6 + 4 + 5 + 4 + 4 + 3) / 6 = 4.33<br>
-            <b>* In a list of 5 numbers, this will be 120 lines plus the answer</b><br>
-            <br>
-            In a list with n numbers, E[ i ] = n+1 / k+1<br>
-            (k is the number of sticks greater than or equal to i)<br>
-            Using the 'short' method...<br>
-            E[1] = 4/4<br>
-            E[2] = 4/3<br>
-            E[3] = 4/2<br>
-            4/4 + 4/3 + 4/2 = 4.33<br>
-            <b>* In a list of 5 numbers, this will be 5 lines plus the answer</b><br>
-            <br>
-        </p>
+        <table   cellpadding="40" >
+            <tr>
+                <th style="text-align:justify; vertical-align: top;" width=50%>
+                    <b>Fast Method…</b><br>
+                    The Vertical Sticks challenge can be changed into a problem of summing the expected ray shot length for each stick in the list.<br>
+                    <i>Ray shot length = distance to the previous stick (with equal or greater height) or to the y-axis.</i><br>
+                    As we are calculating a mean, we could find E[v<sub>i</sub>] the Expected Value of the ray shot for each stick (i) in the list and forget about considering all the positions that stick could take.<br>
+                    E[V] = E[v<sub>1</sub>] + E[v<sub>2</sub>] + E[v<sub>3</sub>] … + E[v<sub>n</sub>]<br>
+                    E[v<sub>i</sub>] = n+1 / k+1 where k is the number of sticks greater than or equal to the height of the i<sup>th</sup> stick.<br>
+                    The +1 is necessary as the y-axis counts as both a position and the highest height.<br>
+                    <br>
+                    E.g. 1<br>
+                    If we have 9 sticks… 8 with height 14 and one stick with height 15, that stick could be in position (or length) 1, 2, 3, 4, 5, 6, 7, 8, 9 in each of the permutations. The expected distance to ray shot length would be the sum of these numbers divided by the number of numbers… 45/9 = 5.<br>
+                    <b>0</b> 1 2 3 4 <b>5</b> 6 7 8 9<br>
+                    Another way to look at it is… we have 10 positions as position ‘0’ (the y-axis) counts as both a position and a height (greater than or equal to 15). So, the expected length of the ray shot is 10/2 = 5 (or 9+1 / 1+1).<br>
+                    E.g. 2<br>
+                    Consider 8 sticks with heights (1, 1, 1, 1, 1, 1, 2, 2)<br>
+                    <b>0</b> 1 2 <b>3</b> 4 5 <b>6</b> 7 8<br>
+                    n = 8 and k = 2<br>
+                    The 2’s expected ray shot length is (n+1) / (k+1) = (8+1) / (2+1) = 9 / 3 = 3.
+                    <br><br><br>
+                </th>
+                <th style="text-align:justify; vertical-align: top;" width=50%>
+                    <b>Slow Method…</b><br>
+                    Array of integers: Y = [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>]<br>
+                    Array of ray shot lengths: [v<sub>1</sub>, v<sub>2</sub>, v<sub>3</sub>…, v<sub>n</sub>] (where v<sub>i</sub> is the length of a ray shot)<br>
+                    V [y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>…, y<sub>n</sub>] = v<sub>1</sub> + v<sub>2</sub> + v<sub>3</sub>… + v<sub>n</sub><br>
+                    Find E[V] the expected value of V<br>
+                    In a problem with n sticks, we must calculate the ray shot of the i<sup>th</sup> stick for each permutation. That is (n-1)! calculations for each position the i<sup>th</sup> stick could occupy.<br>
+                    <br>
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center; vertical-align: top;">
+                    <b>From the sample input:<br>
+                    Case 1:- Numbers (1 2 3)</b>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center; vertical-align: top;">
+                    In a list with n numbers, E[ i ] = n+1 / k+1<br>
+                    (k is the number of sticks greater than or equal to i)<br>
+                    E[1] = 4/4<br>
+                    E[2] = 4/3<br>
+                    E[3] = 4/2<br>
+                    4/4 + 4/3 + 4/2 = 4.33<br>
+                    <b>* In a list of 5 numbers, this will be 5 lines plus the answer</b>
+                </td>
+                <td style="text-align:center; vertical-align: top;">
+                    V(1, 2, 3) = 1 + 2 + 3 = 6<br>
+                    V(1, 3, 2) = 1 + 2 + 1 = 4<br>
+                    V(2, 1, 3) = 1 + 1 + 3 = 5<br>
+                    V(2, 3, 1) = 1 + 2 + 1 = 4<br>
+                    V(3, 1, 2) = 1 + 1 + 2 = 4<br>
+                    V(3, 2, 1) = 1 + 1 + 1 = 3<br>
+                    (6 + 4 + 5 + 4 + 4 + 3) / 6 = 4.33<br>
+                    <b>* In a list of 5 numbers, this will be 120 lines plus the answer</b><br>
+                    <br>
+                </td>
+            </tr>
+
+        </table>
     </div>
 </body>
 </html>
