@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSticksSolution", "Calculator\VerticalSticksSolution.csproj", "{09BCD3BB-02F4-4111-8EC2-D4C7B9726141}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSticksCalculator", "VerticalSticksCalculator\VerticalSticksCalculator.csproj", "{767F4C91-10EF-418F-8DAA-E29FACCEEBC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSticksCalculatorTests", "VerticalSticksCalculatorTests\VerticalSticksCalculatorTests.csproj", "{C3AF7781-64C2-45B3-A352-EBBE93F1B13E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{09BCD3BB-02F4-4111-8EC2-D4C7B9726141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09BCD3BB-02F4-4111-8EC2-D4C7B9726141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09BCD3BB-02F4-4111-8EC2-D4C7B9726141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{767F4C91-10EF-418F-8DAA-E29FACCEEBC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{767F4C91-10EF-418F-8DAA-E29FACCEEBC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{767F4C91-10EF-418F-8DAA-E29FACCEEBC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{767F4C91-10EF-418F-8DAA-E29FACCEEBC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3AF7781-64C2-45B3-A352-EBBE93F1B13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3AF7781-64C2-45B3-A352-EBBE93F1B13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3AF7781-64C2-45B3-A352-EBBE93F1B13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3AF7781-64C2-45B3-A352-EBBE93F1B13E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
