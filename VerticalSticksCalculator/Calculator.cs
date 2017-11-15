@@ -36,12 +36,12 @@ namespace VerticalSticksCalculator
 			if (caseIntegers.Length > 20)
 			{
 				// If there are more than 20 integers, display the number of permutations in scientific notation
-				caseStats.Add(textList[counter] + " ... Average Score: " + sumScores.ToString("0.00") + " ... Permutations: " + permutations.ToString("E2"));
+				caseStats.Add(textList[counter] + " ... AAverage Score: " + sumScores.ToString("0.00") + " ... Permutations: " + permutations.ToString("E2"));
 			}
 			else
 			{
 				// Otherwise display it as an exact number including thousand separators
-				caseStats.Add(textList[counter] + " ... Average Score: " + sumScores.ToString("0.00") + " ... Permutations: " + permutations.ToString("#,###"));
+				caseStats.Add(textList[counter] + " ... AAverage Score: " + sumScores.ToString("0.00") + " ... Permutations: " + permutations.ToString("#,###"));
 			}
 			counter += 2;
 			if (counter <= Convert.ToInt32(textList[0]) * 2)
@@ -72,16 +72,16 @@ namespace VerticalSticksCalculator
 			// calculates the sum of the Ray Shot Lengths for each permutation using 'RayShotsLength'
 			// divides this number by permutations to give the score for the list
 			stopWatch.Start();
-			int score = 0;
-			permutations = 0;
-			IList<IList<int>> perms = Permutations(caseIntegers);
-			foreach (List<int> perm in perms)
-			{
-				score = score + RayShotsLength(perm);
-				permutations = permutations + 1;
-			}
+			permutations = 1;
+            var list = new List<int>(caseIntegers);
 
-			decimal slowAnswer = (decimal)score / (decimal)permutations;
+            Tuple<int, BigInteger> Score = Permutations(list);
+
+            int score = Score.Item1;
+            permutations = Score.Item2;
+
+
+            decimal slowAnswer = (decimal)score / (decimal)permutations;
 
 			caseStats.Add(textList[counter] + " ... Average Score: " + slowAnswer.ToString("0.00")
 				+ ", Permutations: " + permutations.ToString("#,###"));
@@ -101,30 +101,31 @@ namespace VerticalSticksCalculator
 		//'Inputs     list:     list to permutate
 		//'Outputs:   perms:    list of lists
 		//'***************************************************************************
-		private static IList<IList<T>> Permutations<T>(IList<T> list)
+		private static Tuple<int, BigInteger> Permutations(List<int> list)
 		{
-			List<IList<T>> perms = new List<IList<T>>();
-			if (list.Count == 0)
-				return perms; // Empty list.
-			int factorial = 1;
+            int score = 0;
+            int factorial = 1;
+			
 			for (int i = 2; i <= list.Count; i++)
 				factorial *= i;
-			for (int v = 0; v < factorial; v++)
+
+            for (int v = 0; v < factorial; v++)
 			{
-				List<T> s = new List<T>(list);
-				int k = v;
+                List<int> s = new List<int>(list);
+                int k = v;
 				for (int j = 2; j <= list.Count; j++)
 				{
 					int other = (k % j);
-					T temp = s[j - 1];
+					var temp = s[j - 1];
 					s[j - 1] = s[other];
 					s[other] = temp;
 					k = k / j;
 				}
-				perms.Add(s);
-			}
-			return perms;
-		}
+                score = score + RayShotsLength(s);
+            }
+            var stats = new Tuple<int, BigInteger>(score, factorial);
+            return stats;
+        }
 
 
 		//'***************************************************************************
